@@ -1,5 +1,6 @@
 # Project exclude paths
 /target/
+.DS_Store
 
 # Reports
 test-output
