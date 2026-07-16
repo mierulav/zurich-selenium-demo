@@ -1,2 +1,12 @@
 # Project exclude paths
 /target/
+
+# Reports
+test-output
+
+# Container
+docker-compose.yml
+docker
+
+# secrets
+.env
