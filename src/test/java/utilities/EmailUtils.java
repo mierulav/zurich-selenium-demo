@@ -36,23 +36,14 @@ public class EmailUtils {
         // static-access only
     }
 
-    private static String requiredEnv(String key) {
-        String value = System.getenv(key);
-        if (value == null || value.isBlank()) {
-            throw new IllegalStateException(
-                    "Required environment variable '" + key + "' is not set for email reporting.");
-        }
-        return value;
-    }
-
     public static void sendReport(String reportPath, int passed, int failed, int skipped) {
         try {
-            String host = requiredEnv("SMTP_HOST");
-            String port = requiredEnv("SMTP_PORT");
-            String username = requiredEnv("SMTP_USERNAME");
-            String password = requiredEnv("SMTP_PASSWORD");
-            String from = requiredEnv("MAIL_FROM");
-            String to = requiredEnv("MAIL_TO");
+            String host = EnvUtils.requiredEnv("SMTP_HOST");
+            String port = EnvUtils.requiredEnv("SMTP_PORT");
+            String username = EnvUtils.requiredEnv("SMTP_USERNAME");
+            String password = EnvUtils.requiredEnv("SMTP_PASSWORD");
+            String from = EnvUtils.requiredEnv("MAIL_FROM");
+            String to = EnvUtils.requiredEnv("MAIL_TO");
 
             Properties props = new Properties();
             props.put("mail.smtp.host", host);

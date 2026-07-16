@@ -1,2 +1,13 @@
 # Project exclude paths
 /target/
+.DS_Store
+
+# IntelliJ project metadata - personal IDE state, not needed by other clones
+.idea/
+*.iml
+
+# Reports
+test-output
+
+# secrets
+.env

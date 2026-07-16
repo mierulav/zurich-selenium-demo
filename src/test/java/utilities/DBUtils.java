@@ -32,16 +32,16 @@ public class DBUtils {
     }
 
     private static String buildJdbcURL() {
-        String host = env("DB_HOST", "localhost");
-        String port = env("DB_PORT", "3306");
-        String database = env("DB_NAME", "testdb");
+        String host = EnvUtils.optionalEnv("DB_HOST", "localhost");
+        String port = EnvUtils.optionalEnv("DB_PORT", "3306");
+        String database = EnvUtils.optionalEnv("DB_NAME", "testdb");
         return "jdbc:mysql://" + host + ":" + port + "/" + database
                 + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     }
 
     private static Connection connect() throws SQLException {
-        String user = requiredEnv("DB_USER");
-        String password = requiredEnv("DB_PASSWORD");
+        String user = EnvUtils.requiredEnv("DB_USER");
+        String password = EnvUtils.requiredEnv("DB_PASSWORD");
         return DriverManager.getConnection(buildJdbcURL(), user, password);
     }
 

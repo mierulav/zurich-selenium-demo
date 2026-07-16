@@ -1,0 +1,26 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: zurich-demo-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: qauser
+      MYSQL_PASSWORD: qapass
+    ports:
+      - "3306:3306"
+    volumes:
+      # Anything in here runs automatically ONLY the first time the container
+      # initializes an empty data volume (i.e. schema/seed provisioning is
+      # infrastructure's job, not the test framework's).
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+      - zurich-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  zurich-mysql-data:
