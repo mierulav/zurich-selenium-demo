@@ -2,6 +2,7 @@ package testcases;
 
 import base.BasePage;
 import org.testng.Assert;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import utilities.CsvDataProvider;
@@ -40,6 +41,7 @@ public class TC001_Login extends BasePage {
     }
 
     @Test(description = "Verify that login is successful with valid credentials")
+    @Parameters({"username", "password"})
     public void TC001_Login_SuccessfulLogin(String username, String password) {
         LoginPage loginPage = new LoginPage(getWebDriver(), getPlatform());
         loginPage.login(username, password);

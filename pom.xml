@@ -14,7 +14,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <selenium.version>4.21.0</selenium.version>
+        <selenium.version>4.31.0</selenium.version>
         <testng.version>7.10.2</testng.version>
         <webdrivermanager.version>5.9.2</webdrivermanager.version>
         <extentreports.version>5.1.1</extentreports.version>
@@ -27,7 +27,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.46.0</version>
+            <version>${selenium.version}</version>
         </dependency>
 
         <!-- TestNG -->
@@ -78,6 +78,14 @@
             <artifactId>jakarta.mail</artifactId>
             <version>2.0.1</version>
         </dependency>
+
+        <!-- Appium - drives Chrome on a local Android emulator / real device for mobile-web execution -->
+        <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <version>9.4.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -93,7 +101,11 @@
                 <version>3.2.5</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/web-test.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/web-test-checkout.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/web-test-group-dd.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/emulator-test.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/android-test.xml</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
             </plugin>

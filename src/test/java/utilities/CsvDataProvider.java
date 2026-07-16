@@ -7,11 +7,6 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Reads login test data from a CSV file so TC001_Login can run the same
- * workflow against multiple credential combinations without duplicating
- * test methods (SUCCESS / LOCKED_OUT / INVALID_CREDENTIALS scenarios).
- */
 public class CsvDataProvider {
 
     private static final String CSV_PATH = "src/main/resources/testdata/logins.csv";

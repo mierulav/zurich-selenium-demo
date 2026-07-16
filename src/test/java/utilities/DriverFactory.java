@@ -1,23 +1,26 @@
 package utilities;
 
+
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import utilities.enums.ExecutionMode;
 import utilities.enums.Platform;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Thread-safe driver creation/teardown.
- * ThreadLocal keeps each TestNG worker thread on its own WebDriver instance,
- * which is what allows this suite to run with parallel="methods"/"classes"
- * in emulator-test.xml without threads stepping on each other's browser sessions.
- */
 public class DriverFactory {
 
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
@@ -57,10 +60,33 @@ public class DriverFactory {
         return newDriver;
     }
 
-    /**
-     * MOBILE_WEB uses Chrome's device-emulation metrics so the same suite can
-     * exercise the responsive mobile layout without needing a real device/Appium.
-     */
+    public static WebDriver createAndroidDriver(Map<String, String> params) {
+        String deviceName = params.getOrDefault("deviceName", ConfigReader.get("deviceName", Platform.ANDROID));
+        String platformVersion = params.getOrDefault("platformVersion", ConfigReader.get("platformVersion", Platform.ANDROID));
+        String appiumServerUrl = params.getOrDefault("appiumServerUrl", ConfigReader.get("appiumServerUrl"));
+
+        UiAutomator2Options options = new UiAutomator2Options();
+        options.setDeviceName(deviceName);
+        options.setPlatformVersion(platformVersion);
+        options.setAutomationName("UiAutomator2");
+
+        String browser = params.getOrDefault("browser", "");
+        if (!browser.isBlank()) {
+            options.setCapability("browserName", browser);
+        } else {
+            throw new IllegalStateException(
+                    "Native app testing isn't implemented yet - set the 'browser' parameter for mobile-web testing.");
+        }
+        options.autoGrantPermissions();
+        options.setCapability("appium:newCommandTimeout", Integer.parseInt(ConfigReader.get("newAppiumCommandTimeout", "600")));
+
+        try {
+            return new AndroidDriver(new URL(appiumServerUrl), options);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Malformed Appium server URL: " + appiumServerUrl, e);
+        }
+    }
+
     private static ChromeOptions buildChromeOptions(Platform platform) {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");

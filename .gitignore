@@ -2,12 +2,12 @@
 /target/
 .DS_Store
 
+# IntelliJ project metadata - personal IDE state, not needed by other clones
+.idea/
+*.iml
+
 # Reports
 test-output
-
-# Container
-docker-compose.yml
-docker
 
 # secrets
 .env

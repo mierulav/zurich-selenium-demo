@@ -21,6 +21,7 @@ public class LocatorFactory {
     public static LoginPageLocators getLoginPageLocators(Platform platform) {
         switch (platform) {
             case DESKTOP_WEB:
+            case ANDROID:
                 return new locators.desktop.LoginPageLocatorsImpl();
             case MOBILE_WEB:
                 return new locators.mobile.LoginPageLocatorsImpl();
@@ -32,6 +33,7 @@ public class LocatorFactory {
     public static ProductsPageLocators getProductsPageLocators(Platform platform) {
         switch (platform) {
             case DESKTOP_WEB:
+            case ANDROID:
                 return new locators.desktop.ProductsPageLocatorsImpl();
             case MOBILE_WEB:
                 return new locators.mobile.ProductsPageLocatorsImpl();
@@ -43,7 +45,7 @@ public class LocatorFactory {
     public static CheckoutPageLocators getCheckoutPageLocators(Platform platform) {
         switch (platform) {
             case DESKTOP_WEB:
-            case MOBILE_WEB:
+            case ANDROID:
                 return new locators.desktop.CheckoutPageLocatorsImpl();
             default:
                 throw new IllegalArgumentException("Unsupported platform: " + platform);

@@ -7,14 +7,20 @@
         <listener class-name="listeners.AnnotationTransformer"/>
     </listeners>
 
-    <test name="Desktop - Chrome">
+    <test name="Android Login Test">
+        <parameter name="platform" value="android"/>
+        <parameter name="platformVersion" value="16.0"/>
+        <parameter name="deviceName" value="emulator-5554"/>
         <parameter name="browser" value="chrome"/>
-        <parameter name="platform" value="desktop_web"/>
         <parameter name="username" value="standard_user"/>
         <parameter name="password" value="secret_sauce"/>
+        <groups>
+            <run>
+                <include name="data-driven"/>
+            </run>
+        </groups>
         <classes>
             <class name="testcases.TC001_Login"/>
-            <class name="testcases.TC002_CheckoutFlow"/>
         </classes>
     </test>
 </suite>

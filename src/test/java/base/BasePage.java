@@ -1,6 +1,7 @@
 package base;
 
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -9,6 +10,8 @@ import org.testng.annotations.Parameters;
 import utilities.ConfigReader;
 import utilities.DriverFactory;
 import utilities.enums.Platform;
+
+import java.util.Map;
 
 public abstract class BasePage {
 
@@ -24,11 +27,22 @@ public abstract class BasePage {
     }
 
     @BeforeMethod(alwaysRun = true)
-    @Parameters({"browser", "platform"})
-    public void setUpMethod(@Optional("chrome") String browser, @Optional("desktop_web") String platformParam) {
-        Platform platformEnum = Platform.fromString(platformParam);
+    public void setUpMethod(ITestContext context) {
+        Map<String, String> params = context.getCurrentXmlTest().getAllParameters();
+        Platform platformEnum = Platform.fromString(params.get("platform"));
         platform.set(platformEnum);
-        driver.set(DriverFactory.getDriver(browser, platformEnum));
+        // using switch to determine driver
+        switch (platformEnum) {
+            case ANDROID:
+                driver.set(DriverFactory.createAndroidDriver(params));
+                break;
+            case DESKTOP_WEB:
+            case MOBILE_WEB:
+                driver.set(DriverFactory.getDriver(params.get("browser"), platformEnum));
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported platform: " + platformEnum);
+        }
         getWebDriver().get(ConfigReader.get("baseUrl"));
     }
 

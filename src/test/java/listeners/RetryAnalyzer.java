@@ -6,8 +6,8 @@ import utilities.ConfigReader;
 
 public class RetryAnalyzer implements IRetryAnalyzer {
 
-    private static final int MAX_RETRY_COUNT = 1;
-    private int retryCount = Integer.parseInt(ConfigReader.get("retryCount", "1"));
+    private static final int MAX_RETRY_COUNT = Integer.parseInt(ConfigReader.get("retryCount", "1"));
+    private final ThreadLocal<Integer> retryCount = ThreadLocal.withInitial(() -> 0);
 
     @Override
     public boolean retry(ITestResult result) {
@@ -24,9 +24,11 @@ public class RetryAnalyzer implements IRetryAnalyzer {
             return false;
         }
 
-        if (retryCount < MAX_RETRY_COUNT) {
-            retryCount++;
-            System.out.println("[RetryAnalyzer] " + testName + " - Retrying (" + retryCount + "/" + MAX_RETRY_COUNT + ")");
+        int attempts = retryCount.get();
+        if (attempts < MAX_RETRY_COUNT) {
+            retryCount.set(attempts + 1);
+            System.out.println("[RetryAnalyzer] " + testName + " - Retrying (" + (attempts + 1) + "/" + MAX_RETRY_COUNT + ") on thread "
+                    + Thread.currentThread().getName());
             return true;
         }
 

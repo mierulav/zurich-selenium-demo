@@ -1,14 +1,9 @@
 package utilities.enums;
 
-/**
- * Represents the "form factor" the test should run against.
- * Mirrors the ANDROID/IOS split used in mobile frameworks, but here it
- * drives Chrome's responsive/device-emulation mode so the same LocatorFactory
- * + interface-based locator-strategy pattern can be showcased on web.
- */
 public enum Platform {
     DESKTOP_WEB,
-    MOBILE_WEB;
+    MOBILE_WEB,
+    ANDROID;
 
     public static Platform fromString(String value) {
         if (value == null || value.isBlank()) {
