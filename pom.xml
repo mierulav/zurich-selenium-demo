@@ -101,9 +101,9 @@
                 <version>3.2.5</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/web-test.xml</suiteXmlFile>
-                        <suiteXmlFile>src/test/resources/web-test-checkout.xml</suiteXmlFile>
-                        <suiteXmlFile>src/test/resources/web-test-group-dd.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/web-dd-test.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/web-db-test.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/web-parallel-test.xml</suiteXmlFile>
                         <suiteXmlFile>src/test/resources/emulator-test.xml</suiteXmlFile>
                         <suiteXmlFile>src/test/resources/android-test.xml</suiteXmlFile>
                     </suiteXmlFiles>
